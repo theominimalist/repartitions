@@ -1,0 +1,81 @@
+\documentclass[12pt, notitlepage]{article}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage[hungarian]{babel}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage[T1]{fontenc}
+\addto\captionshungarian{
+  \renewcommand{\proofname}{Bizonyítás}}
+\newtheorem*{definicio}{Definíció}
+\newtheorem*{tetel}{Tétel}
+\newtheorem*{lemma}{Lemma}
+\newtheorem*{allitas}{Állítás}
+
+\begin{document}
+
+\section*{Példák diszkrét értékelésgyűrűre ($DVR$)}
+
+\begin{definicio}[Prímideál]
+    Az $R$ kommutatív gyűrű ideálját prímideálnak nevezzük, ha tetszőleges $b \text{, }c \in R$ elemekre $bc \in P$-ből $b\in P$ vagy $c \in P$ következik.
+\end{definicio}
+
+Legyen $A$ főideálgyűrű ($PID$), és $Q_A = \operatorname{Frac}(A)$. $P$ legyen egy prímideál $A$-ban, melyre így létezik $0 \neq f \in A$, hogy $P = (f)$. Definiáljuk az alábbi halmazt:
+\[A_P = \left\{ \frac{x}{y} \in Q_A \mid x \in A, \text{ } y \in A\setminus P\right\} \text{.}\]
+\textit{Megjegyzés:} $y \notin P \Longrightarrow y \neq 0$.
+
+\begin{allitas}
+    $A \subset A_P \subset Q_A$, és $A_P$ részgyűrű $Q_A$-ban.
+\end{allitas}
+\begin{proof}
+    Minden $a \in A$ felírható $\frac{a}{1}$ alakban, ahol $1 \in A \setminus P$, hiszen $P~\neq~(1)~=~A$. Tehát 0, 1 $\in A_P$ is teljesül.
+
+    Ha $\frac{x}{y}$, $\frac{x'}{y'} \in A_P$, akkor $xx' \in A$, és $yy' \in A \setminus P$, mivel $P$ prímideál. Azaz $\frac{xx'}{yy'} \in A_P$. És $A_P$ az összeadásra is zárt lesz, mivel $\frac{x}{y}+\frac{x'}{y'} = \frac{xy' + yx'}{yy'}$, ahol $yy' \in A \setminus P$ szintén, és $xy' + yx' \in A$, hiszen $A$ gyűrű. 
+\end{proof}
+
+\begin{allitas}
+    $A_P$ egy $DVR$.
+\end{allitas}
+\begin{proof}
+    $A$ egy $PID$, tehát $UFD$ is. $P$ prímideál, így $f$ irreducibilis, tehát prím is. Ezekből következik, hogy minden $x \in A$ elemet fel tudunk írni egyértelműen $x = u \cdot f^n$ alakban, ahol $u \in A$, $n \in \mathbb{N}_{\geq 0}, \text{ } f \nmid u$. Azaz egy $\frac{x}{y} \in A_P$ elemre $\frac{x}{y} = \frac{u}{y} \cdot f^n$, ahol $u$, $y \in A \setminus P$, mivel ha $u$ benne lenne $P$-ben, akkor osztható lenne $f$-fel. Tehát $\frac{u}{y} \in A_P^*$.
+
+    Legyen $I \triangleleft A_P$ tetszőleges. A fentiek alapján $I = (u_1 \cdot f^{n_1}, u_2 \cdot f^{n_2}, \dots)$, ahol $u_i \in A_P^*$, $n_i \in\mathbb{N}_{\geq 0}$. Legyen $n = \min n_i$, ekkor $f^n \in I$, és minden $I$-beli elemet oszt, így $(f^n) = I$. Tehát $A_P$ egy $DVR$.
+\end{proof}
+
+A $DVR$-re ezek alapján gondolhatunk úgy, mint a legegyszerűbb $PID$-re, amelyben csak egy irreducibilis elem és egy prímideál van.
+
+Most nézzünk egy másik példát $DVR$-re. Legyen $K$ test. Ekkor a \textit{formális hatványsorok gyűrűje}:
+\[K[[t]] = \left\{ \sum_{n=0}^{\infty} a_nt^n \mid a_n \in K\right\}\text{.}\]
+Ahol a nullelem $\sum_{n=0}^{\infty} 0\cdot t^n$, az egységelem pedig $1+\sum_{n=1}^{\infty} 0 \cdot t^n$. Hasonlóan $K \subset K[[t]]$ a konstansok. Az összeadást a szokásos módon tagonként végezzük, a szorzást pedig a Cauchy-szorzat mintájára:
+\[\sum_{n=0}^{\infty} a_nt^n + \sum_{n=0}^{\infty} b_nt^n = \sum_{n=0}^{\infty} (a_n+b_n)t^n \text{,}\]
+\[\sum_{n=0}^{\infty} a_nt^n \cdot \sum_{n=0}^{\infty} b_nt^n = \sum_{n=0}^{\infty}\left( \sum_{k=0}^{n} a_kb_{n-k}\right)t^n \text{.}\]
+Könnyen ellenőrizhetjük, hogy $K[[t]]$ egységelemes, kommutatív gyűrű.
+
+\begin{allitas}
+    $K[[t]]$ egy $DVR$.
+\end{allitas}
+\begin{proof}
+    \begin{lemma}
+        Minden elemet fel tudunk írni ilyen alakban:
+        \[ \sum_{n=0}^{\infty} a_nt^n = t^m \cdot \alpha \cdot \left(1 + \sum_{n=1}^{\infty} c_nt^n \right) \text{.}\]
+    \end{lemma}
+    \begin{proof}
+        A nullát fel tudjuk írni ilyen alakban, ha $\alpha$-t nullának választjuk. Most nézzünk egy nem nulla számot. Ekkor létezik egy minimális $m \in \mathbb{N}$, amire $a_m \neq 0$. Legyen $\alpha = a_m$, és emeljük ki a sorozatból az $\alpha t^m$ tagot:
+        \[\sum_{n=0}^{\infty} a_nt^n = t^m \cdot \alpha \cdot \left(1 + \sum_{n=m+1}^{\infty} \frac{a_n}{\alpha}t^{n-m} \right) \text{.}\]
+    \end{proof}
+    Az állítás bizonyításához még azt kell megmutatnunk, hogy $1 + \sum_{n=1}^{\infty} c_nt^n$ invertálható. Szeretnénk, hogy valamilyen $1 + \sum_{n=1}^{\infty} d_nt^n$ sorozatra ez teljesüljön:
+    \[\left(1 + \sum_{n=1}^{\infty} c_nt^n \right) \cdot \left(1 + \sum_{n=1}^{\infty} d_nt^n \right) = 1 \text{,}\]
+    azaz minden $n \geq 1$-re $\sum_{k=0}^{n} c_kd_{n-k} = 0$, azaz
+    \begin{gather*}
+        c_0d_1 + c_1d_0 = 0 \\
+        c_0d_2 + c_1d_1 + c_2d_0 = 0 \\
+        \vdots
+    \end{gather*}
+    ahol $c_0 = d_0 = 1$, tehát meg tudjuk oldani az ismeretlen $d_i$-kre az egyenleteket. Tehát a sorozat tényleg invertálható, így az egységek csoportja: $K[[t]]^* = K^*U_1$ lesz, ahol $U_1$ az $1 + \sum_{n=1}^{\infty} c_nt^n$ alakú elemek csoportja. $K[[t]]$-ben az egyetlen irreducibilis elem $t$ lesz, az ideálok pedig $(t^n)$ alakúak. Ezzel beláttuk, hogy $K[[t]]$ egy $DVR$.
+\end{proof}
+
+\noindent \textit{Megjegyzés}: $K[[t]]$ hányadosteste a Laurent-sorok teste:
+\[K((t)) = \left\{\sum_{n=k}^{\infty} a_nt^n \mid k \in \mathbb{Z} \text{, } a_n \in K \right\}\text{,}\]
+ahol az összeadás és szorzás a szokásos módon működik.
+
+
+\end{document}
