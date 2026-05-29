@@ -1,0 +1,382 @@
+\documentclass[11pt,a4paper]{article}
+
+% -------------------------------------------------
+% Encoding and language
+% -------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[magyar]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{xcolor}
+% -------------------------------------------------
+% Math packages
+% -------------------------------------------------
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{mathrsfs}
+\usepackage{stmaryrd}
+
+% -------------------------------------------------
+% Layout
+% -------------------------------------------------
+\usepackage[a4paper,margin=2.8cm]{geometry}
+\usepackage{setspace}
+\setstretch{1.08}
+
+% -------------------------------------------------
+% Hyperlinks
+% -------------------------------------------------
+\usepackage[hidelinks]{hyperref}
+
+% -------------------------------------------------
+% Enumerations
+% -------------------------------------------------
+\usepackage{enumitem}
+
+% -------------------------------------------------
+% Custom commands
+% -------------------------------------------------
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\length}{\operatorname{length}}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\m}{\mathfrak{m}}
+\newcommand{\Ov}{\mathcal{O}_v}
+
+% -------------------------------------------------
+% Theorem styles
+% -------------------------------------------------
+\theoremstyle{definition}
+\newtheorem{definition}{Definíció}[section]
+\newtheorem{example}[definition]{Példa}
+\newtheorem{remark}[definition]{Megjegyzés}
+
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Tétel}
+\newtheorem{proposition}[definition]{Állítás}
+\newtheorem{corollary}[definition]{Következmény}
+
+% -------------------------------------------------
+% Title
+% -------------------------------------------------
+\title{%
+Értékelések és értékelésgyűrűk\\
+\large Különös tekintettel a diszkrét értékelésgyűrűkre
+}
+
+\author{Előadásjegyzet az Algebrai Görbék c. tárgyhoz}
+\date{}
+
+% -------------------------------------------------
+% Document
+% -------------------------------------------------
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\bigskip
+
+% =================================================
+{\section*{Előszó}
+Az algebrai görbék tanulmányozása a matematika egy fontos területe, hisz hidat képez az komplex analízis, az algebra és a geometria között. Egy algebrai görbe nem más, mint egy $K$ test feletti polinom nulla halmaza, azaz egy $C = \{(x,y) \in K \times K \mid f(x,y) = 0\}$ halmaz, ahol $f$ egy
+kétváltozós polinom, $K$-beli együtthatókkal.
+\newline\indent Ezen jegyzet az algebrai görbék elméletének önálló, tisztán algebrai ismertetését adja. Ezt a megközelítést R. Dedekind,
+L. Kronecker és H. M. Weber kezdeményezte a tizenkilencedik században majd E. Artin, H. Hasse, F. K. Schmidt és A. Weil továbbfejlesztették 
+a huszadik század első felében. Ez a megközelítés csupán az algebrai testbővítések alapvető ismereteit feltételezi, beleértve a Galois-elméletet is. Egy másik előnye, hogy
+az elmélet néhány főbb eredménye, mint például a Riemann—Roch-tétel, amely nem mellékesen ezen kurzus végcélja is, viszonylag hamar levezethető. 
+\newline\indent Az első témakörünk az értékelések és az értékelésgyűrűk, melyekkel pontosan vizsgálhatjuk az algebrai görbék lokális viselkedését, lehetővé téve a zérus helyek, pólusok és szingularitások szisztematikus nyomon követését. A $C$ görbe egy $p$ pontja akkor sima pont, ha a $p$-ben lévő lokális gyűrű diszkrét értékelésgyűrű. Ellenkező esetben
+$p$ szinguláris pont. %A $C$ görbe akkor sima, ha minden pontja sima.
+Egy nem szinguláris algebrai görbe pontjai tehát megfelelnek a függvénytér diszkrét értékelésgyűrűinek. Ez a megfelelés pedig később lehetővé teszi például a divizorok definiálását és a Riemann–Roch-tétel megfogalmazását.
+
+
+\section{Értékelések}
+
+\subsection{Rendezett abel-csoportok}
+
+\begin{definition}
+Egy $\Gamma$ abel-csoportot \textit{(teljesen) rendezett abel-csoport}nak nevezünk,
+ha el van látva egy teljes {$\leq$} rendezéssel, és a rendezés kompatibilis
+a csoportművelettel:  ha $\alpha \leq \beta$, ahol $\alpha, \beta \in \Gamma$,  akkor minden $\gamma \in \Gamma$ esetén
+\begin{equation*}
+    \alpha + \gamma \leq \beta + \gamma.
+\end{equation*}
+
+Az értékelések értékkészletét egy ilyen $\Gamma$ csoport adja. A legfontosabb
+eset számunkra a $\Gamma = \mathbb{Z}$ ellátva a szokásos rendezéssel. Ekkor beszélünk
+diszkrét értékelésről.
+
+Formálisan hasznos a $\Gamma$ csoportot kiegészíteni egy $\infty$ elemmel, amelyre
+\begin{equation*}
+    \alpha < \infty, \alpha + \infty = \infty + \alpha = \infty
+\end{equation*}
+minden $\alpha \in \Gamma $ esetén. Így kényelmesen definiálhatjuk $v(0) = \infty$  értéket.
+\end{definition}
+
+\subsection{Értékelések definíciója}
+
+\begin{definition} \label{valuation}
+Legyen $K$ test, $\Gamma$ rendezett abel-csoport.
+Egy \textit{értékelés} a $K$ testen egy olyan
+\[
+v : K^\times \longrightarrow  \Gamma
+\]
+leképezés,  amelyre minden $x, y \in K^\times$ esetén
+\begin{equation*}
+    v(xy) = v(x) + v(y),
+\end{equation*}
+továbbá, ha $x + y \not = 0$ , akkor
+
+\begin{equation*}
+    v(x+y) \geq min\{v(x), v(y)\}.
+\end{equation*}
+Megállapodás szerint $v(0) = \infty$.
+
+Az első tulajdonság azt mondja, hogy \textit{v} csoporthomomorfizmus $K^\times$ multiplikatív csoportjából $\Gamma$ additív csoportjába. A második tulajdonság az
+ultrametrikus háromszög-egyenlőtlenség additív alakja.
+\end{definition}
+
+\begin{proposition}
+Legyen $v$ értékelés $K$-n. Ekkor:
+\begin{enumerate}[label=\arabic*]
+    \item $v(1)=0$  és $v(-1) = 0$;
+    \item $v(x^{-1})=-v(x)$ \text{minden} $x \in K$ \text{esetén};
+    \item ha $v(x)\neq v(y)$, akkor
+    $v(x+y)=\min\{v(x),v(y)\}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Az $1 \cdot 1 = 1$ azonosságból $v(1) = v(1) + v(1)$, tehát $v(1) = 0$.
+Mivel $(-1)^2 = 1, 2v(-1) = 0$, ezért $v(-1) = 0$ rendezett abel-csoportban,
+hiszen abban nincs torzió. Az $xx^{-1} = 1$ azonosságból adódik $v(x)+v(x^{-1}) =
+0$, tehát $v(x^{-1}) = -v(x)$.
+
+Tegyük fel, hogy $v(x) < v(y)$. Az \ref{valuation} definícióban szereplő egyenlőtlenség
+szerint $v(x + y) \geq v(x)$. Ha szigorú egyenlőtlenség állna fenn, akkor
+$v(y) = v((x + y) - x) \geq min\{v(x + y), v(x)\} = v(x)$,
+ami ellentmond a kiinduló feltevésnek, következésképpen $v(x+y) = v(x)$.
+\end{proof}
+
+\begin{definition}
+    Az értékelés értékcsoportja a $v(K^\times) \subseteq \Gamma$ rendezett részcsoport. Az értékelés \textit{triviális}, ha $v(x) = 0$ minden $x \in K^\times$ esetén.
+\end{definition}%my part 
+\begin{definition}
+    Két értékelés $v$ és $v'$ \textit{ekvivalens}, ha létezik $m,n>0$ úgy, hogy $nv = mv'$. 
+\end{definition}
+\begin{definition}
+    Bármely nem triviális értékelés ekvivalens pontosan egy szürjektív értékeléssel. Az ilyen értékeléseket \textit{normalizátor}na nevezzük. 
+\end{definition}
+% =================================================
+\section{Értékelésgyűrűk}
+
+\subsection{Az értékeléshez tartozó gyűrű}
+
+\begin{definition}
+Legyen $v$ értékelés a $K$ testen. Az
+\[
+\Ov = \{x\in K \mid v(x)\ge 0\}
+\]
+részgyűrűt a $v$ értékelés \textit{értékelésgyűrűjének} nevezzük. Az 
+\begin{equation*}
+    \m_v = \{x\in K\mid v(x) > 0\}
+\end{equation*}
+ideált az \textit{értékeléshez tartozó maximális ideálnak} nevezzük. 
+\end{definition}
+\begin{remark}
+    Ha $\Ov$ egy értékelésgyűrűje a $K$ testnek, akkor $K$ bármely részgyűrűje, amely tartalmazza $\Ov$-t szintén értékelésgyűrű. Ez a definícióbol azonnal következik.
+\end{remark}
+
+\begin{proposition}
+Az $\mathcal O_v$ értékelésgyűrű lokális integritási tartomány, maximális
+ideálja $\mathfrak m_v$, egységcsoportja pedig
+\[
+\mathcal O_v^\times
+=
+\{x \in K^\times \mid v(x)=0\}.
+\]
+Továbbá $\operatorname{Frac}(\mathcal O_v)=K$.
+\end{proposition}
+
+\begin{proof}
+Az értékelés tulajdonságaiból közvetlenül következik, hogy $\mathcal O_v$
+zárt az összeadásra és szorzásra, továbbá $1\in\mathcal O_v$. Mivel
+$\mathcal O_v \subseteq K$, ezért $\mathcal O_v$ is integritási tartomány.
+
+Ha $x\in\mathcal O_v$ és $v(x)=0$, akkor $v(x^{-1})=0$, tehát
+$x^{-1}\in\mathcal O_v$, vagyis $x$ egység. Ha $v(x)>0$, akkor
+$v(x^{-1})<0$, tehát $x^{-1}\notin\mathcal O_v$, azaz $x$ nem egység.
+Így az egységek pontosan a $0$ értékelésű elemek, a nemegységek pedig
+pontosan $\mathfrak m_v$ elemei. Egy gyűrű pontosan akkor lokális,
+ha a nemegységek halmaza ideál; itt ez az $\mathfrak m_v$ ideálra teljesül.
+
+Végül ha $x\in K^\times$, akkor vagy $v(x)\ge 0$, és ekkor
+$x\in\mathcal O_v$, vagy $v(x)<0$, és ekkor $v(x^{-1})>0$, tehát
+$x^{-1}\in\mathcal O_v$. Így minden $K$-beli elem két
+$\mathcal O_v$-beli elem hányadosaként írható, tehát
+$\operatorname{Frac}(\mathcal O_v)=K$.
+\end{proof}
+
+\begin{theorem}\label{tetel23}[Értékelésgyűrűk intrinzikus jellemzése]
+Legyen $K$ test, és legyen $R\subseteq K$ olyan részgyűrű, amelyre
+$\operatorname{Frac}(R)=K$. Ekkor $R$ pontosan akkor valamely
+értékelés értékelésgyűrűje, ha minden $x\in K^\times$ esetén
+\[
+x\in R
+\qquad \text{vagy} \qquad
+x^{-1}\in R.
+\]
+\end{theorem}
+
+\begin{proof}
+Ha $R=\mathcal O_v$, akkor az állítás az előző bizonyítás végén már
+megjelent.
+
+Fordítva tegyük fel, hogy $R$ rendelkezik a fenti tulajdonsággal.
+Tekintsük a $K^\times/R^\times$ faktorcsoportot. Egyelőre multiplikatív
+jelölést használunk, de rendezett abel-csoportként később additív
+jelölésre térhetünk át. A rendezést definiáljuk úgy, hogy
+\[
+xR^\times \ge yR^\times
+\iff
+xy^{-1}\in R.
+\]
+
+Ez jól definiált, mert egységgel való szorzás nem változtatja meg az
+$R$-beli tagságot. A rendezés teljes, hiszen minden $xy^{-1}\in K^\times$
+elemre vagy $xy^{-1}\in R$, vagy $(xy^{-1})^{-1}=yx^{-1}\in R$.
+Antiszimmetrikus is: ha $xy^{-1}\in R$ és $yx^{-1}\in R$, akkor
+$xy^{-1}$ egység $R$-ben, tehát $xR^\times=yR^\times$.
+A tranzitivitás és a csoportművelettel való kompatibilitás közvetlenül
+következik abból, hogy $R$ gyűrű.
+
+A
+\[
+v : K^\times \longrightarrow K^\times / R^\times,
+\qquad
+x \longmapsto xR^\times
+\]
+leképezés csoporthomomorfizmus. Ha $x+y\neq 0$ és például
+$v(x)\ge v(y)$, akkor $xy^{-1}\in R$, ezért
+\[
+(x+y)y^{-1}=xy^{-1}+1\in R.
+\]
+
+Ez azt jelenti, hogy
+\[
+v(x+y)\ge v(y)=\min\{v(x),v(y)\}.
+\]
+A másik eset ugyanilyen. Így $v$ értékelés, és definíció szerint
+\[
+\mathcal O_v
+=
+\{x\in K \mid v(x)\ge v(1)\}
+=
+R.
+\]
+\end{proof}
+
+\begin{remark}
+A fenti tétel miatt az értékelésgyűrűt gyakran azzal a
+tulajdonsággal is definiálják, hogy minden $x\in K^\times$ elemre
+$x$ vagy $x^{-1}$ benne van a gyűrűben. Ez a megfogalmazás nagyon
+hasznos, amikor nem egy konkrét képlettel adott értékelésből
+indulunk ki, hanem egy lokális gyűrű tulajdonságait vizsgáljuk. Lásd a \ref{valueex} példák esetén is.
+\end{remark}
+
+\subsection{Alapvető tulajdonságok}
+
+\begin{proposition}
+Egy értékelésgyűrű ideáljai lineárisan rendezettek a tartalmazásra
+nézve: ha $I,J\subseteq \mathcal O_v$ ideálok, akkor
+$I\subseteq J$ vagy $J\subseteq I$.
+\end{proposition}
+
+\begin{proof}
+Tegyük fel, hogy $I\not\subseteq J$. Válasszunk
+$a\in I\setminus J$ elemet. Megmutatjuk, hogy $J\subseteq I$.
+Legyen $b\in J$. Ha $b=0$, nincs mit bizonyítani.
+Ha $b\neq 0$, akkor $\frac{a}{b}\notin \mathcal O_v$, mert ellenkező
+esetben
+\[
+a=(\frac{a}{b})b\in J
+\]
+lenne. Értékelésgyűrűről lévén szó, ebből
+$\frac{b}{a}\in \mathcal O_v$ következik. Így
+\[
+b=(\frac{b}{a})a\in I,
+\]
+tehát $J\subseteq I$.
+\end{proof}
+
+\begin{remark}
+    Az előző állítás megfordítása is igaz. Vagyis, ha $\Ov$ egy integritási tartomány, aminek hányadosteste $K$ és az idáljai rendezettek a benfoglalásra nézve, akkor $\Ov$ értékelésgyűrűje lesz a $K$-nak.
+\end{remark}
+\begin{proof}
+    Tegyük fel, hogy az ideálok teljesen rendezettek az $\Ov$ integritási tartományban. Ha $\alpha \in K^\times$ az $\Ov$ hányadostestéből való, akkor $\alpha = \frac{a}{b}$, ahol $a, b \in \Ov^\times$. A feltételezés szerint vagy $(a) \subset (b)$, vagy $(b) \subset (a)$. Így $a = cb$, ahol $c \in \Ov$, vagy $b = da$, ahol $d \in \Ov $. Az első esetben $\frac{a}{b} = c \in \Ov$, a második esetben pedig $\frac{b}{a} = d \in \Ov$. Tehát $\Ov$ egy értékelésgyűrű. 
+\end{proof}
+\begin{corollary}
+    Legyen $\Ov$ a $K$ test egy részgyűrűje. $\Ov$ akkor és csak akkor értékelésgyűrű, ha
+$a, b\in \Ov$ esetén vagy $a$ osztja $b$-t, vagy $b$ osztja $a$-t.
+\end{corollary}
+\begin{corollary}
+    Egy értékelésgyűrűben minden végesen generált ideál principiális.
+\end{corollary}
+\begin{proof}
+     Legyen $I$ egy ideál az $\Ov$ értékelésgyűrűben, és tegyük fel, hogy $I = (a_1, a_2, \dots, a_n)$. Ekkor
+vagy $a_1$ osztja $a_2$-t, vagy $a_2$ osztja $a_1$-et. Az általánosság elvesztése nélkül feltételezhetjük, hogy $a_1$ osztja $a_2$-t. Ebben az esetben
+$I = (a_1, a_3, …, a_n)$. Ezt a gondolatmenetet folytatva végül azt kapjuk, hogy $I = (a_i)$, valamilyen $i$ esetén. 
+\end{proof}
+
+\begin{corollary}
+Egy értékelésgyűrű prímideáljai lineárisan rendezettek.
+Konkrétan egy értékelésgyűrű spektruma lánc.
+\end{corollary}
+
+\begin{proposition}
+Minden értékelésgyűrű egészzárt a hányadostestében.
+\end{proposition}
+
+\begin{proof}
+Legyen $R=\mathcal O_v$, $K=\operatorname{Frac}(R)$, és tegyük fel,
+hogy $x\in K$ egész $R$ fölött. Ha $x\notin R$, akkor
+$x^{-1}\in R$ és $v(x)<0$. Mivel $x$ egész $R$ fölött,
+teljesít egy olyan egyenletet, hogy
+\[
+x^n+a_{n-1}x^{n-1}+\cdots+a_1x+a_0=0,
+\qquad
+a_i\in R.
+\]
+
+Osszunk $x^{n-1}$-gyel:
+\[
+x
+=
+-(a_{n-1}+a_{n-2}x^{-1}+\cdots+a_0x^{-(n-1)}).
+\]
+
+A jobb oldal $R$-ben van, hiszen $a_i\in R$ és
+$x^{-1}\in R$. Ez ellentmond $x\notin R$-nek.
+Tehát $x\in R$, vagyis $R$ egészzárt.
+\end{proof}
+
+%my work
+\subsection{Példák értékelésgyűrűkre} \label{valueex}
+\begin{enumerate}
+    \item Bármely $K$ test. Valóban, hiszen $Frac(F) = F$, és így a \ref{tetel23} tétel alapján kész. Ekkor a $K$-hoz tartozó értékelés a triviális értékelés.  
+    \item Az egész számok lokalizációja a $(p)$ prímideálban: $\mathbb{Z}_{(p)} = \{ \frac{a}{b} \mid a,b \in \mathbb{Z}, p \nmid b\}$.
+    \\ Legyen $x \in Frac (\mathbb{Z}_{(p)}),\, x = \frac{a}{b}$. Tudunk választani olyan $a,b$ egészeket, hogy $p \mid a$ vagy $p|b$, de $p$ nem osztja egyszerre $a$-t is és $b$-t is. Tehát $x \in \mathbb{Z}_{(p)}$ vagy $x^{-1} \in \mathbb{Z}_{(p)}$ 
+    \item $\mathbb{C}$ feletti polinomok lokalizációja az $(x)$ prímideálban: \\ $\mathbb{C}[x]_{(x)} = \{ \frac{f(x)}{g(x)} \mid f,g \in \mathbb{C}[x],\, g(0)  \neq 0\}$.
+    \item (Nem példa) $\mathbb{Z}$ nem értékelésgyűrű, hiszen például $\frac{3}{2} = (\frac{2}{3})^{-1} \in \mathbb{Q} = Frac(\mathbb{Z})$, de egyik sem egész szám.
+    \item  (Nem példa) A $\mathbb{C}$ feletti kétváltozós polinomok lokalizációja: \\$\mathbb{C}[x,y]_{(x,y)} = \{ \frac{f(x,y)}{g(x,y)} \mid f,g \in \mathbb{C}[x,y],\, g(0,0)  \neq 0\}$ bár lokális gyűrű, mégsem értékelésgyűrű. Például $\frac{x}{y} = (\frac{y}{x})^{-1} \in Frac(\mathbb{C}[x,y]_{(x,y)})$, de a gyűrűben egyik sincs benne.
+\end{enumerate}
+
+\end{document}
+% =================================================
