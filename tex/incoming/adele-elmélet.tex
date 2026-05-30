@@ -1,0 +1,225 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\geometry{a4paper, margin=1in}
+
+\newtheorem{theorem}{Tétel}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Definíció}
+\newtheorem{remark}[theorem]{Megjegyzés}
+
+\newcommand{\Hom}{\mathrm{Hom}}
+\newcommand{\varlim}{\varinjlim}
+\newcommand{\varprojlim}{\varprojlim}
+
+\title{Algebrai geometria: topologikus vektorterek, adele-elmélet és a Riemann--Roch-tétel}
+\author{Előadásjegyzet}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+
+% -------------------------------------------------------------------
+\section{Topologikus vektorterek és folytonos dualitás}
+% -------------------------------------------------------------------
+
+Legyen $k$ egy alaptest. Végtelen dimenziós $k$-vektorterek esetén a szokásos algebrai dualitás, vagyis a $V \mapsto V^{\vee}$ hozzárendelés, általában nem reflexív, azaz $V \not\cong (V^{\vee})^{\vee}$. Ennek orvoslására topológiát kell bevezetnünk.
+
+Legyenek $V_1, V_2$ topologikus vektorterek $k$ felett. A folytonos lineáris leképezések terét a következőképpen definiáljuk:
+\[
+  \Hom_k^{\mathrm{cont}}(V_1, V_2)
+  \;=\;
+  \bigl\{\, f : V_1 \to V_2 \;\bigm|\; f \text{ lineáris és folytonos} \,\bigr\}.
+\]
+Diszkrét topológia esetén minden diszkrét térből induló leképezés folytonos.
+
+\begin{definition}[Direkt összegek és diszkrét duálisok]
+  Legyen $S$ egy indexhalmaz, és legyen $V$ egy diszkrét topológiával ellátott $k$-vektortér. Rögzítsünk egy $S$-sel indexelt bázist. Ekkor $V$ direkt összegként írható fel:
+  \[
+    V \;\cong\; \bigoplus_{s \in S} k \cdot s \;=\; k^{(S)}.
+  \]
+  A $v \in V$ elemek véges lineáris kombinációk, azaz $v = \sum \alpha_s s$, ahol majdnem minden $\alpha_s = 0$.
+
+  Az \emph{algebrai duális tér} $V^{\vee} = \Hom_k(V, k)$ izomorf a direkt szorzattal:
+  \[
+    V^{\vee} \;\cong\; \prod_{s \in S} k \;=\; k^S.
+  \]
+\end{definition}
+
+A $f \in V^{\vee}$ elemek $(f_s)_{s \in S}$ családokként reprezentálhatók, \emph{mindenféle} végességi feltétel nélkül. Mivel végtelen $S$ esetén $\dim(k^{(S)}) < \dim(k^S)$ az Erdős--Kaplansky-tétel szerint, a természetes algebrai kiértékelési leképezés $V \to (V^{\vee})^{\vee}$ injektív, de \textbf{nem szürjektív}.
+
+Ennek kijavítására $V^{\vee}$-t topológiával látjuk el.
+
+\begin{definition}[A pontonkénti konvergencia topológiája]
+  A $V^{\vee} = k^S$ teret a \emph{szorzattopológiával} látjuk el, ahol minden $k$ tényező a diszkrét topológiát hordozza. A $0 \in V^{\vee}$ pont egy környezetbázisát az alábbi alakú halmazok adják:
+  \[
+    U_F \;=\; \bigl\{\, f \in V^{\vee} \;\bigm|\; f(s) = 0 \text{ minden } s \in F \text{ esetén} \,\bigr\},
+  \]
+  ahol $F \subset S$ az összes véges részhalmazon fut végig.
+\end{definition}
+
+Ez egy \textbf{perfekt párosítást} ad
+\[
+  \langle \cdot, \cdot \rangle : V^{\vee} \times V \to k
+\]
+között, amelyet a következő formula definiál:
+\[
+  \langle f, v \rangle \;=\; f(v) \;=\; \sum_{s \in S} f_s\, \alpha_s.
+\]
+Mivel $v \in V$ csak véges sok nemnulla tagot tartalmaz, ez az összeg mindig véges és jól definiált.
+
+\begin{theorem}[A folytonos biduális]
+  Definiáljuk a folytonos biduálist a következőképpen:
+  \[
+    (V^{\vee})^{\vee}_{\mathrm{cont}} = \Hom_k^{\mathrm{cont}}(V^{\vee},\, k),
+  \]
+  ahol $k$ a diszkrét topológiát hordozza. Ekkor a természetes kiértékelési leképezés
+  \[
+    V \;\xrightarrow{\;\sim\;}\; (V^{\vee})^{\vee}_{\mathrm{cont}}
+  \]
+  izomorfizmus.
+\end{theorem}
+
+\begin{proof}[Bizonyításvázlat]
+  Legyen $\phi : V^{\vee} \to k$ folytonos lineáris leképezés. Mivel $\{0\} \subset k$ nyílt, ezért $\phi^{-1}(0)$ nyílt $V^{\vee}$-ben. A szorzattopológia definíciója szerint létezik olyan véges $F \subset S$, hogy $U_F \subset \phi^{-1}(0)$. Ezért $\phi$ faktorizálódik a véges dimenziós $V^{\vee}/U_F \cong k^F$ hányadoson keresztül. Mivel $\phi$ az $F$-en vett kiértékelési funkcionálok véges lineáris kombinációja, pontosan egy $v \in V$ elemnek felel meg.
+\end{proof}
+
+% -------------------------------------------------------------------
+\section{Lineárisan kompakt terek és limeszek}
+% -------------------------------------------------------------------
+
+A $V^\vee$ téren definiált topológia több alapvető tulajdonsággal rendelkezik. Szeparált, azaz Hausdorff, továbbá teljes. Az ilyen módon előálló tereket \textbf{lineárisan kompakt} tereknek nevezzük; ezek a profinit csoportok vektortér-analógjai.
+
+\begin{remark}
+  Nem-archimédészi topologikus vektorterek esetén minden nyílt altér egyben zárt is, vagyis nyílt és zárt. A megfordítás azonban nem igaz: nem minden zárt altér nyílt. Ha egy nyílt altér tartalmazza a nullvektort, akkor tartalmaz egy nullkörnyezetet is. Egy nyílt $U$ altér szerinti $V/U$ hányadostér a diszkrét topológiát hordozza.
+\end{remark}
+
+A folytonos biduálissal való izomorfizmus kontravariáns kategóriaekvivalenciát ad $\mathcal{C}_{\mathrm{disc}}$, a diszkrét $k$-vektorterek kategóriája, és $\mathcal{C}_{\ell.c.}$, a lineárisan kompakt $k$-vektorterek kategóriája között.
+
+Ezenfelül ezek a terek természetesen viselkednek limeszekre nézve:
+\begin{itemize}[leftmargin=2em]
+  \item Egy diszkrét $V$ vektortér véges dimenziós altereinek szűrt kolimesze:
+  \[
+    V \cong \varinjlim V_i.
+  \]
+  \item Duálisan, a lineárisan kompakt $V^{\vee}$ tér a véges dimenziós duálisok inverz limesze:
+  \[
+    V^{\vee} \cong \varprojlim V_i^{\vee}.
+  \]
+\end{itemize}
+
+% -------------------------------------------------------------------
+\section{Lokális testek és reziduumok}
+% -------------------------------------------------------------------
+
+Ahhoz, hogy ezt a dualitási keretet algebrai görbékre alkalmazzuk, egy pontbeli lokális viselkedést vizsgáljuk. Legyen $X$ sima projektív görbe $k$ felett, és legyen $K_v \cong k((t))$ a formális Laurent-sorok lokális teste egy $v$ helyen, ahol $t$ lokális uniformizáló elem.
+
+\begin{definition}[Reziduum]
+  Legyen $\omega \in \Omega_{K_v/k}$ lokális differenciálforma, amely a következő alakban írható:
+  \[
+    \omega = \left( \sum_{i=-N}^{\infty} a_i t^i \right) dt.
+  \]
+  Az $\omega$ \emph{reziduuma}, jelölésben $\operatorname{Res}(\omega)$, az $a_{-1}$ együttható.
+\end{definition}
+
+A reziduum egy $k$-lineáris $\operatorname{Res}_v: \Omega_{K_v/k} \to k$ leképezést ad. Ennek segítségével nemelfajuló lokális párosítást definiálhatunk függvények és differenciálformák között:
+\[
+  \langle f, \omega \rangle_v = \operatorname{Res}_v(f \omega)
+  \quad \text{ahol } f \in K_v, \, \omega \in \Omega_{K_v/k}.
+\]
+
+% -------------------------------------------------------------------
+\section{Az adele-gyűrű és a globális párosítás}
+% -------------------------------------------------------------------
+
+Legyen $K$ az $X$ görbe globális függvényteste.
+
+\begin{definition}[Adele-gyűrű]
+  A $K$ test $\mathbb{A}$ \emph{adele-gyűrűje} a $K_v$ lokális testek \textbf{korlátozott direkt szorzata} a $\mathcal{O}_v$ értékelési gyűrűkre nézve:
+  \[
+    \mathbb{A} = \prod_{v \in X}\nolimits' K_v.
+  \]
+  Egy $f = (f_v) \in \mathbb{A}$ elemre teljesül, hogy $f_v \in \mathcal{O}_v$ majdnem minden $v$ helyre.
+\end{definition}
+
+Az adele-gyűrűt a korlátozott szorzat topológiájával látjuk el; ezzel lokálisan lineárisan kompakt térré válik. Hasonló módon definiáljuk a differenciálok adele-terét, amelyet $\Omega_{\mathbb{A}}$ jelöl.
+
+\begin{theorem}[Globális párosítás]
+  Létezik egy perfekt topologikus párosítás
+  \[
+    \mathbb{A} \times \Omega_{\mathbb{A}} \to k,
+  \]
+  amelyet a lokális reziduumok összege definiál:
+  \[
+    \langle f, \omega \rangle = \sum_{v \in X} \operatorname{Res}_v(f_v \omega_v).
+  \]
+  Mivel $f_v \in \mathcal{O}_v$, és $\omega_v$-nek majdnem minden $v$ esetén nincs pólusa, ezért
+  \[
+    \operatorname{Res}_v(f_v \omega_v) = 0
+  \]
+  majdnem minden $v$-re, így a globális összeg véges.
+\end{theorem}
+
+\begin{theorem}[Globális reziduumtétel]
+  Ágyazzuk be a $K$ függvénytestet diagonálisan $\mathbb{A}$-ba, és tekintsük így az úgynevezett fő adele-elemeket; továbbá ágyazzuk be a globális differenciálokat $\Omega_{K/k}$ diagonálisan $\Omega_{\mathbb{A}}$-ba. A globális párosításra nézve ezek egymás ortogonális komplementerei. Tetszőleges globális racionális függvény $f \in K$ és globális differenciál $\omega \in \Omega_{K/k}$ esetén:
+  \[
+    \sum_{v \in X} \operatorname{Res}_v(f \omega) = 0.
+  \]
+\end{theorem}
+
+% -------------------------------------------------------------------
+\section{Divizorok és a Riemann--Roch-tétel}
+% -------------------------------------------------------------------
+
+Legyen $D = \sum n_v v$ egy divizor az $X$ görbén, ahol
+\[
+  \deg(D) = \sum n_v
+\]
+a foka. A globális szelvények terét így definiáljuk:
+\[
+  L(D) = \{ f \in K^\times \mid \operatorname{div}(f) + D \ge 0 \} \cup \{0\}.
+\]
+Legyen $\ell(D) = \dim_k L(D)$. Adele-ek segítségével definiáljuk azt az $\mathbb{A}(D) \subset \mathbb{A}$ alteret, amely azokból az $a = (a_v)$ adele-elemekből áll, amelyekre
+\[
+  v(a_v) \ge -n_v
+\]
+minden $v$ esetén. Az adele-topológia definíciója szerint $\mathbb{A}(D)$ az $\mathbb{A}$ lineárisan kompakt nyílt részcsoportja.
+
+\begin{lemma}
+  Az $L(D)$ tér pontosan a $K \cap \mathbb{A}(D)$ metszet az $\mathbb{A}$ adele-gyűrűben.
+\end{lemma}
+
+Az $\ell(D)$ kiszámításához az
+\[
+  \mathbb{A} / (K + \mathbb{A}(D))
+\]
+hányadostérrel foglalkozunk. Mivel $K$ diszkrét $\mathbb{A}$-ban, és $\mathbb{A}(D)$ nyílt, valamint lineárisan kompakt, ennek a hányadostérnek a dimenziója véges. Ez a dimenzió olyan „indexként” viselkedik, amely a divizorhoz kapcsolódó egzakt sorozatok pontatlanságát méri.
+
+A korábbi szakaszokban kidolgozott perfekt folytonos párosítást alkalmazva és ortogonális komplementereket véve az
+\[
+  \mathbb{A} / (K + \mathbb{A}(D))
+\]
+hányadostér folytonos duálisa azonosítható azon globális differenciálok terével, amelyek zérusait $D$ korlátozza. Ez a duális tér izomorf $L(W - D)$-vel, ahol $W$ a kanonikus divizor.
+
+\begin{theorem}[Riemann--Roch]
+  Legyen $D$ divizor egy $g$ nemű sima projektív $X$ görbén, és legyen $W$ a kanonikus divizor. Ekkor:
+  \[
+    \ell(D) - \ell(W - D) = \deg(D) + 1 - g.
+  \]
+\end{theorem}
+
+\begin{proof}[Bizonyításvázlat]
+  Az
+  \[
+    \mathbb{A} / (K + \mathbb{A}(D))
+  \]
+  adele-es hányadostér vizsgálatából indulunk ki. Ha a divizort lokálisan növeljük, például $D$-ről $D+v$-re térünk át, akkor a dimenziók előre meghatározható, tisztán lokális módon változnak, a foktól függően. A korábban felépített perfekt topologikus dualitás biztosítja, hogy az ortogonális komplementer véges dimenziója pontosan $\ell(W - D)$-nek felel meg. E diszkrét és lineárisan kompakt terek dimenzióinak összehasonlítása adja a globális Riemann--Roch-formulát.
+\end{proof}
+
+\end{document}
