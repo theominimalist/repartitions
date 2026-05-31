@@ -1,0 +1,125 @@
+\documentclass{article}
+\usepackage{titling}
+\title{Szeparábilis polinomok}
+\author{}
+\date{}
+\usepackage[utf8]{inputenc}
+\usepackage{t1enc}
+\usepackage[magyar]{babel}
+\usepackage{anysize}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{stmaryrd}
+
+\pagestyle{plain}
+\marginsize{2.5cm}{2.5cm}{2.5cm}{2.5cm}
+\frenchspacing
+\linespread{1.3}
+
+\usepackage{amsthm}
+
+\theoremstyle{definition}
+\newtheorem{tetel}{Tétel}[section]
+\newtheorem{lemma}[tetel]{Lemma}
+\newtheorem{all}[tetel]{Állítás}
+\newtheorem{megj}[tetel]{Megjegyzés}
+\newtheorem{kov}[tetel]{Következmény}
+\newtheorem{defi}[tetel]{Definíció}
+\newtheorem{pl}[tetel]{Példa}
+\newenvironment{biz}{\par\noindent{\bf Bizonyítás.}\enspace\ignorespaces}{\hfill$\square$\par}
+
+\setlength{\droptitle}{-2cm}
+
+\begin{document}
+
+\maketitle
+\vspace{-1.5cm}
+
+\begin{lemma}
+    (Hensel-lemma) Legyen $O$ egy teljes diszkrét értékelésgyűrű, $m \, \triangleleft  _{max} \, O, f(x) \in O[x], \alpha \in O$ úgy, hogy $f(\alpha) \equiv 0 \, \, \, (m)$ (vagyis $f(\alpha) \in m$), de $f '(\alpha) \not\equiv 0 \, \, \, (m)$. Ekkor $\exists \, \alpha' \in O: \alpha' \equiv \alpha \, \, \, (m)$ és $f(\alpha') = 0$.
+\end{lemma}
+
+\begin{tetel}
+    (Eisenstein-kritérium) Legyen $O$ egy értékelésgyűrű, $m \, \triangleleft \, O, f(x) = a_nx^n + \dots + a_0 \in O[x]$ úgy, hogy
+    \begin{enumerate}
+        \item $a_n \notin m$, vagyis $\nu(a_n) = 0$
+        \item $a_i \in m \quad \forall \, i < n$, vagyis $\nu(a_i) \ge 1$
+        \item $a_0 \in m \backslash m^2$, vagyis $\nu(a_0) = 1$
+    \end{enumerate}
+    Ekkor $f(x)$ irreducibilis $O[x]$-ben.
+\end{tetel}
+
+\begin{defi}
+    Egy $K$ test fölötti $f$ polinom szeparábilis, ha $(f, f') = 1$, azaz $f$-nek nincs többszörös gyöke, egyébként inszeparábilis.
+\end{defi}
+
+\begin{pl}
+    \mbox{}
+    \begin{itemize}
+        \item $x^3 - 2 \in \mathbb{Q}[x]$ szeparábilis, mert $(x^3 - 2, 3x^2) = 1$.
+        \item $f(x) = x^p - t \in \mathbb{F}_p(t)[x]$ inszeparábilis, mert $f'(x) = px^{p-1} = 0$, így $(f, f') \ne 1$.
+    \end{itemize}
+\end{pl}
+
+\begin{all}
+    $f \, K$-együtthatós polinom irreducibilis $\Rightarrow f$ szeparábilis vagy $char(K) = p$ és $f(x) = \\ = \sum_{n=0}^{N} a_nx^{np}$.
+\end{all}
+
+\begin{biz}
+    \begin{enumerate}
+        \item Ha $f'(x) \not\equiv 0: deg(f') < deg(f), (f, f') \mid f' \Rightarrow deg\big((f, f')\big) \le deg(f') < deg(f)$, $f$ irreducibilis $\Rightarrow (f, f')$ nemnulla konstans, tehát $1$, vagyis $f$ szeparábilis.
+        \item Ha $f'(x) \equiv 0: f(x) = \sum a_nx^n, f'(x) = \sum na_nx^{n-1} \equiv 0 \Rightarrow na_n = 0 \quad \forall \, n$.
+        \begin{itemize}
+            \item Ha $char(K) = 0$, akkor $a_n = 0 \quad \forall \, n \ge 1$, tehát vagy $f = a_0$ konstans, ekkor $f$ szeparábilis, vagy $f \equiv 0$, ez ellentmond $f$ irreducibilitásának.
+            \item Ha $char(K) = p > 0$, akkor $\forall \, n: \quad a_n = 0$ vagy $p \mid n$, tehát $f(x) = \sum_{n=0}^{N} a_nx^{np}$ alakú.
+        \end{itemize}
+    \end{enumerate}
+\end{biz}
+
+\begin{defi}
+    $R$ kommutatív, egyégelemes gyűrű, $char(R) = p$. A $Fr_R: R \rightarrow R, \, x \mapsto x^p$ leképezést p-Frobeniusnak nevezzük.
+\end{defi}
+
+\begin{megj}
+    $Fr_R$ gyűrűhomomorfizmus. A multiplikativitás következik a kommutativitásból, az egységelem megőrzése triviális. Az additivitás: $x, y \in L, Fr_L(x + y) = (x + y)^p = \sum_{j=0}^{p} \binom{p}{j}x^jy^{p-j} = x^p + y^p = Fr_L(x) + Fr_L(y)$, kihasználva, hogy p-karakterisztikában $p = 0, \, p \mid \binom{p}{j}$, ha $1 \le j \le p-1$.
+\end{megj}
+
+\begin{all}
+    $L$ test, $char(L) = p > 0, Fr_L: L \rightarrow L, \, x \mapsto x^p$. Ez a p-Frobenius injektív.
+\end{all}
+
+\begin{biz}
+    $x, y \in L, Fr_L(x)= Fr_L(y)$, azaz $x^p = y^p \Rightarrow 0 = x^p - y^p = x^p + (-y)^p = (x - y)^p$, itt $-y^p = (-y)^p$ páratlan $p$-re triviálisan teljesül, $p = 2$-re pedig $2y^2 = 0$ miatt $-y^2 = y^2 = (-y)^2. \\ \Rightarrow x - y = 0 \Rightarrow x = y$.
+\end{biz}
+
+\begin{defi}
+    Az $F$ test perfekt, ha $\forall$ irreducibilis $F$-együtthatós polinom szeparábilis.
+\end{defi}
+
+\begin{pl}
+    $char(F) = 0: f(x) = \sum a_nx^n \in F[x]$ tetszőleges irreducibilis polinom, tegyük fel, hogy $\alpha$ többszörös gyöke. Ekkor $f (\alpha) = f'(\alpha) = 0$, tehát $1 \ne (f, f') \mid f. \, f$ irreducibilis, ezért $(f, f') = f$, tehát $f \mid f'$, de $deg(f') < deg(f)$ miatt $f' \equiv 0$, azaz $\sum na_nx^{n-1} \equiv 0. \, 0$-karakterisztikában $1, \dots, n \ne 0$, tehát $a_1, a_2, \dots = 0$, vagyis $f$ kontans vagy azonosan $0$, ami ellentmond $f$ irreducibilitásának. Tehát $f$ szeparábilis, vagyis $F$ perfekt.
+\end{pl}
+
+\begin{all}
+    $F$ test, $char(F) = p > 0$. $F$ perfekt $\Leftrightarrow Fr_F$ szürjektív (azaz bijektív).
+\end{all}
+
+\begin{biz}
+    \begin{enumerate}
+        \item $\Rightarrow$ irány: $F$ perfekt, $\alpha \in F$ tetszőleges, $f(x) = x^p - \alpha \in F[x]. \\ f'(x) = (x^p  - \alpha)' = px^{p-1} \equiv 0$, tehát $f$ inszeparábilis, így nem lehet irreducibilis, mert $F$ perfekt. Tehát $\exists \, g(x) \in F[x]: g(x) \mid f(x), \, deg(g) < deg(f) = p$. A számelmélet alaptétele polinomokra vonatkozó verziója szerint feltehető, hogy $g$ irreducibilis. Legyen $K/F$ véges testbővítés úgy, hogy $K$-ban $f$-nek van gyöke: $\beta$, tehát $\beta ^p = \alpha$.
+        $f(x) = x^p - \alpha = x^p - \beta ^p = (x - \beta)^p$, így $g(x) = (x - \beta)^j$ alakú, $0 < j < p$.
+        $g(x) = (x - \beta)^j = \sum_{i=0}^{j} \binom{j}{i} x^i(-\beta)^{j-i} \in F[x]$, speciálisan $i = (j - 1)$-re: $\binom{j}{j-1}(-\beta)^{j-(j-1)} = -j\beta \in F. \, \, 0 < j < p$ miatt $j$ invertálható, így $-j^{-1}j\beta = -\beta \in F \Rightarrow \beta \in F$, tehát $\alpha \in Im(Fr_F)$, vagyis $Fr_F$ szürjektív.
+        \item $\Leftarrow$ irány: $Fr_F$ szürjektív és indirekten tegyük fel, hogy van olyan irreducibilis $F$-együtthatós polinom, ami inszeparábilis. Ez a fenti állítás szerint $F[x^p]$-beli: $f(x) = \sum a_nx^{np}, \, a_n \in F$. Mivel $Fr_F$ szürjektív, $\exists \, b_n \in F: a_n = Fr_F(b_n) = b_n^p$. Így $f(x) =  \sum a_nx^{np} = \sum b_n^px^{np} = {(\sum b_nx^n)}^p \Rightarrow f$ nem irreducibilis $\lightning$
+    \end{enumerate}
+\end{biz}
+
+\begin{pl}
+    \mbox{}
+    \begin{itemize}
+        \item $\lvert F \rvert < \infty$: egy $F \rightarrow F$ injektív függvény szürjektív is, tehát $Fr_F$ szürjektív $\Rightarrow F$ perfekt.
+        \item $\mathbb{F}_p(t)$ nem perfekt, mert $t \notin Im(Fr_{\mathbb{F}_p(t)})$.
+    \end{itemize}
+\end{pl}
+
+\end{document}
