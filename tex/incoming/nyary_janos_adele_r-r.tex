@@ -1,0 +1,110 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\title{Algebraic Geometry: Topological Vector Spaces, Adeles, and the Riemann-Roch Theorem}
+\author{Lecture Notes}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Topological Vector Spaces and Continuous Duality}
+
+Let $k$ be a perfect base field. When dealing with infinite-dimensional $k$-vector spaces, standard algebraic duality $V\mapsto V^{\vee}$ fails to be reflexive (i.e., the canonical map $V\rightarrow (V^{\vee})^{\vee}$ is injective but not surjective). To remedy this, we must introduce topology.
+
+Let $V_{1}$, $V_{2}$ be topological vector spaces over $k$. We define the space of continuous linear maps as:
+$$Hom_k^{cont} (V_1, V_2) = \{f: V_1 \rightarrow V_2 \mid f \text{ is linear and continuous}\}$$
+
+If $V_{1}$ is equipped with the discrete topology, any linear map to another topological vector space is continuous. Thus, the space of continuous linear forms to $k$ coincides exactly with the algebraic dual.
+
+\textbf{Definition 1.1 (Direct Sums and Discrete Duals).} Let $S$ be an index set, and let $V$ be a $k$-vector space equipped with the discrete topology. Fixing a basis $S$, we express $V$ as a direct sum:
+$$V\cong\bigoplus_{s\in S}k\cdot s=k^{(S)}$$
+Elements $v\in V$ are finite linear combinations $v=\sum\alpha_{s}s$. The algebraic dual space $V^{\vee}=Hom_{k}(V,k)$ is isomorphic to the direct product:
+$$V^{\vee}\cong\prod_{s\in S}k=k^{S}$$
+Elements $f\in V^{\vee}$ are represented as families $(f_{s})_{s\in S}$ with no finiteness restriction. Because $dim(k^{(S)})<dim(k^{S})$ for an infinite set $S$ (by the Erdős-Kaplansky theorem), algebraic reflexivity fails. To restore reflexivity, we equip $V^{\vee}$ with a topology.
+
+\textbf{Definition 1.2 (Topology of Pointwise Convergence).} We equip $V^{\vee}=k^{S}$ with the product topology (Tychonoff topology), where each factor $k$ carries the discrete topology. A fundamental system of open neighborhoods of $0\in V^{\vee}$ is given by $k$-vector subspaces of the form:
+$$U_{F}=\{f\in V^{\vee} \mid f(s)=0 \text{ for all } s\in F\}$$
+where $F\subset S$ ranges over all finite subsets.
+
+This topology establishes a non-degenerate, continuous bilinear pairing $\langle \cdot, \cdot \rangle: V^{\vee} \times V\rightarrow k$ given by:
+$$\langle f,v\rangle=f(v)=\sum_{s\in S}f_{s}\alpha_{s}$$
+Because $v\in V$ has only finitely many non-zero terms, this sum is strictly finite and well-defined.
+
+\textbf{Theorem 1.3 (The Continuous Double Dual).} Define the continuous double dual as $(V^{\vee})_{cont}^{\vee}=Hom_{k}^{cont}(V^{\vee},k)$ where $k$ carries the discrete topology. The natural evaluation map:
+$$V\longrightarrow(V^{\vee})_{cont}^{\vee}$$
+is an isomorphism of $k$-vector spaces.
+
+\textit{Proof.} Let $\phi\in Hom_{k}^{cont}(V^{\vee},k)$. Since $k$ is discrete, $\{0\}\subset k$ is open, implying $\phi^{-1}(0)$ is an open subspace of $V^{\vee}$. By the definition of the product topology, there exists a finite subset $F\subset S$ such that $U_{F}\subset\phi^{-1}(0)$. Therefore, $\phi$ annihilates $U_{F}$ and factors uniquely through the finite-dimensional discrete quotient $V^{\vee}/U_{F}\cong k^{F}$. Being a finite linear combination of evaluation functionals on $F$, $\phi$ corresponds to a unique vector $v\in V$. \qed
+
+\section{Linearly Compact Spaces and Limits}
+
+The topology on $V^{\vee}$ has several vital properties: it is separated (Hausdorff) and complete. Spaces arising this way are called linearly compact. In the context of non-Archimedean topological vector spaces, the fundamental system of open neighborhoods of the origin consists entirely of open $k$-vector subspaces. Because any open subspace $U$ is a topological subgroup, its cosets form an open partition of the space. Consequently, the complement of $U$ is open, which implies that every open subspace is also closed (clopen).
+
+However, the converse is false: not every closed subspace is open. An open subspace is characterized algebraically by having finite codimension. Consequently, quotient spaces $V/U$ by an open subspace $U$ necessarily carry the discrete topology and are finite-dimensional.
+
+The isomorphism of the continuous double dual establishes a contravariant equivalence of categories between $\mathcal{C}_{disc}$ (discrete $k$-vector spaces) and $\mathcal{C}_{l.c.}$ (linearly compact $k$-vector spaces).
+
+\textbf{Remark 2.1 (Analogy with Pontryagin Duality).} This equivalence of categories serves as the linear-algebraic analog of Pontryagin duality, the role of continuous characters into the circle group being played by continuous linear forms into the base field $k$.
+
+Furthermore, these categories behave naturally under limits:
+\begin{itemize}
+    \item A discrete vector space $V$ is a filtered colimit of its finite-dimensional subspaces: $V\cong \varinjlim V_{i}$.
+    \item Dually, the linearly compact space $V^{\vee}$ is the inverse limit of the finite-dimensional duals: $V^{\vee}\cong \varprojlim V_{i}^{\vee}$.
+\end{itemize}
+
+\section{Local Fields and the Trace Map}
+
+To apply this duality framework to algebraic curves over an arbitrary perfect base field $k$ (such as a finite field $\mathbb{F}_{q}$), we must rigorously define the local behavior at a place. Let $X$ be a smooth projective curve over $k$. For any closed point (place) $v\in X$, let $\mathcal{O}_{v}$ denote the discrete valuation ring and $\mathfrak{m}_{v}$ its maximal ideal. The residue field $k(v)=\mathcal{O}_{v}/\mathfrak{m}_{v}$ is a finite extension of the base field $k$. Because $k$ is perfect, this extension is automatically separable, with local degree $d_{v}=[k(v):k]$.
+
+The completion of the global function field $K$ at $v$, denoted $K_{v}$, is isomorphic to the field of formal Laurent series over the residue field:
+$$K_{v}\cong k(v)((t_{v}))$$
+where $t_{v}$ is a local uniformizer at $v$. If $k$ is algebraically closed, $k(v)\cong k$ globally; however, for finite fields, these local field extensions strictly govern the local arithmetic.
+
+Let $\omega\in\Omega_{K_{v}/k}$ be a continuous local differential form. We may express it as:
+$$\omega=\left(\sum_{i=-N}^{\infty}a_{i}t_{v}^{i}\right)dt_{v}$$
+where the coefficients $a_{i}\in k(v)$. The algebraic residue of $\omega$, denoted $res_{v}(\omega)$ is the coefficient $a_{-1}\in k(v)$. Because this value resides in the extension field $k(v)$, it does not immediately yield a $k$-linear functional. To construct a valid form over the base field $k$, we compose the algebraic residue with the Galois trace map $Tr_{k(v)/k}:k(v)\rightarrow k$.
+
+We define the normalized local residue map $Res_{v}:\Omega_{K_{v}/k}\rightarrow k$ as:
+$$Res_{v}(\omega)=Tr_{k(v)/k}(res_{v}(\omega))$$
+This map allows us to define a non-degenerate $k$-bilinear local pairing between local functions and local differential forms:
+$$\langle f,\omega\rangle_{v}=Res_{v}(f\omega) \text{ for } f\in K_{v}, \omega\in\Omega_{K_{v}/k}$$
+
+\section{The Adele Ring and Global Pairing}
+
+Let $K$ be the global function field of the curve $X$. The adele ring $\mathbb{A}$ of $K$ is the restricted direct product of the local fields $K_{v}$ with respect to their valuation rings $\mathcal{O}_{v}$:
+$$\mathbb{A}=\prod_{v\in X}^{\prime}K_{v}$$
+An element $f=(f_{v})\in\mathbb{A}$ has $f_{v}\in\mathcal{O}_{v}$ for almost all places $v$. We similarly define the space of adelic differentials $\Omega_{\mathbb{A}}$ as the restricted product of $\Omega_{K_{v}/k}$ with respect to $\Omega_{\mathcal{O}_{v}/k}$.
+
+\textbf{Theorem 4.1 (Global Pairing).} There is a perfect topological pairing $\mathbb{A}\times\Omega_{\mathbb{A}}\rightarrow k$ defined by the sum of normalized local residues:
+$$\langle f,\omega\rangle=\sum_{v\in X}Tr_{k(v)/k}(res_{v}(f_{v}\omega_{v}))$$
+Because $f_{v}\in\mathcal{O}_{v}$ and $\omega$ has no poles for almost all $v$, the algebraic residue $res_{v}(f_{v}\omega_{v})=0$ for almost all $v$, making the global trace sum strictly finite.
+
+\textbf{Theorem 4.2 (Global Residue Theorem).} Embed the function field $K$ diagonally into $\mathbb{A}$ (principal adeles) and the global differentials $\Omega_{K/k}$ diagonally into $\Omega_{\mathbb{A}}$. Under the global pairing, $K$ and $\Omega_{K/k}$ are orthogonal complements to each other. For any global rational function $f\in K$ and global differential $\omega\in\Omega_{K/k}$:
+$$\sum_{v\in X}Tr_{k(v)/k}(res_{v}(f\omega))=0$$
+
+\section{Divisors, Finite Codimension, and the Riemann-Roch Theorem}
+
+Let $D=\sum n_{v}v$ be a divisor on the curve $X$, with degree $deg(D)=\sum n_{v}[k(v):k]$. We define the discrete space of global sections:
+$$L(D)=\{f\in K^{\times} \mid div(f)+D\ge0\}\cup\{0\}$$
+Let $l(D)=dim_{k}L(D)$.
+
+Using adeles, we define the subspace $\mathbb{A}(D)\subset\mathbb{A}$ consisting of adeles $a=(a_{v})$ such that $v(a_{v})\ge-n_{v}$ for all $v$. Under the restricted product topology, $\mathbb{A}(D)$ is an open, linearly compact $k$-vector subspace of $\mathbb{A}$. The space $L(D)$ is precisely the intersection $K\cap\mathbb{A}(D)$ inside the adele ring.
+
+To compute $l(D)$, we study the dimension of the $k$-vector space quotient $\mathbb{A}/(K+\mathbb{A}(D))$. The finiteness of this dimension relies on a fundamental geometric property of the function field $K$: the quotient space $\mathbb{A}/K$ is linearly compact. Because $K$ is discrete in $\mathbb{A}$, the canonical projection $\pi:\mathbb{A}\rightarrow\mathbb{A}/K$ is continuous. The image $\pi(\mathbb{A}(D))$ is an open subspace of the linearly compact space $\mathbb{A}/K$. In the category of linearly compact vector spaces, every open subspace has finite codimension. Therefore, the discrete quotient space:
+$$\mathbb{A}/(K+\mathbb{A}(D))\cong(\mathbb{A}/K)/\pi(\mathbb{A}(D))$$
+is finite-dimensional over $k$.
+
+By applying the perfect continuous pairing $\mathbb{A}\times\Omega_{\mathbb{A}}\rightarrow k$ and taking orthogonal complements, the continuous dual space of $\mathbb{A}/(K+\mathbb{A}(D))$ is identified with the intersection of the orthogonal complements of $K$ and $\mathbb{A}(D)$. By the Global Residue Theorem, $K^{\perp}=\Omega_{K/k}$. The local pairing condition requires that the orthogonal complement of $\mathbb{A}(D)$ consists of adelic differentials $\omega$ satisfying $v(\omega_{v})\ge n_{v}$. We denote this space $\Omega_{\mathbb{A}}(-D)$.
+
+Thus, the dual space is exactly $\Omega_{K/k}\cap\Omega_{\mathbb{A}}(-D)$, which is the space of global differentials satisfying $div(\omega)\ge D$. This space is isomorphic to $L(W-D)$, where $W$ is the canonical divisor, establishing that $dim_{k}(\mathbb{A}/(K+\mathbb{A}(D)))=l(W-D)$.
+
+\textbf{Theorem 5.1 (Riemann-Roch).} Let $D$ be a divisor on a smooth projective curve $X$ of genus $g$, and let $W$ be the canonical divisor. Then:
+$$l(D)-l(W-D)=deg(D)+1-g$$
+
+\textit{Proof.} The linear compactness of $\mathbb{A}/K$ guarantees the finite dimensionality of $\mathbb{A}/(K+\mathbb{A}(D))$. If we increase the divisor locally, passing from $D$ to $D+v$, the dimensions change based entirely on the local field extension degree $[k(v):k]$. The perfect topological duality ensures that the finite dimension of the orthogonal complement corresponds exactly to $l(W-D)$. Computing the Euler characteristic of the resulting exact sequences of finite-dimensional $k$-vector spaces yields the global Riemann-Roch formula. \qed
+
+\end{document}
